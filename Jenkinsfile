@@ -1,17 +1,17 @@
-pipeline {
+/*pipeline {
     agent {
         docker {
-            image 'node:6-alpine' //NodeJs
-            args '-p 3002:3002' 
+            image 'node:6-alpine'
+            args '-p 3000:3000'
         }
     }
     environment {
         CI = 'true'
     }
     stages {
-        stage('Build') { 
+        stage('Build') {
             steps {
-                sh 'npm install' 
+                sh 'npm install'
             }
         }
         stage('Test') {
@@ -23,6 +23,25 @@ pipeline {
             steps {
                 sh './jenkins/scripts/deliver.sh'
                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                sh './jenkins/scripts/kill.sh'
+            }
+        }
+    }
+}*/
+
+pipeline {
+    agent {
+        docker image 'node:6-alpine'
+        args 'p 3000:3000'
+    }
+
+    environment {
+        CI = 'true'
+    }
+
+    stages {
+        stage('Kill') {
+            steps {
                 sh './jenkins/scripts/kill.sh'
             }
         }
